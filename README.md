@@ -58,3 +58,7 @@ Apesar de ambos boletos terem a mesma função de estipular valores a serem pago
     • G - Campo livre (Obs.: Se existir data de vencimento no campo livre, ela deverá vir em primeiro lugar e em formato AAAAMMDD)
     • [ W,X,Y,Z ] - Mod10 de cada campo anterior
 
+
+## License
+
+MIT
