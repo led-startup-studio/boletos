@@ -24,11 +24,12 @@
  *
  */
 
+// eslint-disable-next-line
 import moment, { Moment } from "moment";
 import { list as banks } from "../utils/banks";
 import { mod10, mod11 } from "../utils/dv";
 
-interface IBank {
+export interface IBank {
   bank: string;
   currency: string;
   dv: string;
@@ -40,10 +41,10 @@ interface IBank {
 }
 
 // This is the factor used by the banks to start the due date counter
-const rootFactorDate = moment("07-10-1997", "DD-MM-YYYY").utcOffset("America/Sao_Paulo");
-const firstFactorDate = moment("03-07-2000", "DD-MM-YYYY").utcOffset("America/Sao_Paulo");
+export const rootFactorDate = moment("07-10-1997", "DD-MM-YYYY").utcOffset("America/Sao_Paulo");
+export const firstFactorDate = moment("03-07-2000", "DD-MM-YYYY").utcOffset("America/Sao_Paulo");
 
-class BankBillet {
+export class BankBillet {
 
   private billet: IBank;
 
@@ -86,11 +87,10 @@ class BankBillet {
    * @param bank is a key for a choosen bank (e.g.: "237", "001", etc.)
    */
   public static createBillet(value: number, expiry: number, bank?: string): BankBillet {
-    if (String(value * 100).length > 10 ||
-        expiry > 5500 ||
-        (bank && (bank.length > 3 ||
-        !banks.has(bank) ||
-        isNaN(Number(bank))))) {
+    const isBellowMaximumValue = String(value * 100).length <= 10
+    const hasValidExpireDate = expiry <= 5500
+    const bankIsValid = !bank || banks.has(bank)
+    if (!isBellowMaximumValue || !hasValidExpireDate || !bankIsValid) {
       throw new Error("Invalid parameters");
     }
 
@@ -289,8 +289,5 @@ class BankBillet {
 
     // If none of the conditions above is met, then it is returned a "invalid" date
     throw new Error("Invalid bank due date");
-    // return rootFactorDate.clone();
   }
 }
-
-export { IBank, BankBillet, rootFactorDate, firstFactorDate };

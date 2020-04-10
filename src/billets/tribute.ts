@@ -28,10 +28,9 @@
  *
  */
 
-import moment from "moment";
 import { mod10, mod11 } from "../utils/dv";
 
-interface ITribute {
+export interface ITribute {
   identifier: string;
   segment: string;
   value_type: string;
@@ -48,7 +47,7 @@ const dvMod = new Map()
   .set("8", mod11)
   .set("9", mod11);
 
-class TributeBillet {
+export class TributeBillet {
 
   private billet: ITribute;
 
@@ -219,4 +218,3 @@ class TributeBillet {
     return false;
   }
 }
-export { ITribute, TributeBillet };

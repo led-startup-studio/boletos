@@ -23,11 +23,7 @@ export default class Billets {
     try {
       return TributeBillet.parseBillet(billet);
     } catch (e) {
-      try {
-        return BankBillet.parseBillet(billet);
-      } catch (e) {
-        throw e;
-      }
+      return BankBillet.parseBillet(billet);
     }
   }
 }

@@ -1,18 +1,31 @@
 {
   "scripts": {
     "test": "jest --coverage",
+    "lint": "npx eslint --ext .ts src",
     "build": "./node_modules/.bin/tsc"
   },
   "devDependencies": {
     "@types/jest": "^24.0.23",
+    "@typescript-eslint/eslint-plugin": "2",
+    "@typescript-eslint/parser": "^2.27.0",
+    "eslint": "6",
+    "eslint-config-standard-with-typescript": "^15.0.1",
+    "eslint-plugin-import": "2",
+    "eslint-plugin-jsdoc": "^22.1.0",
+    "eslint-plugin-node": "11",
+    "eslint-plugin-prefer-arrow": "^1.2.0",
+    "eslint-plugin-promise": "4",
+    "eslint-plugin-standard": "4",
+    "eslint-plugin-unicorn": "^18.0.1",
     "jest": "^24.9.0",
     "mockdate": "^2.0.5",
     "ts-jest": "^24.2.0",
-    "tslint": "^5.20.1",
     "typescript": "^3.7.2"
   },
   "dependencies": {
     "moment": "^2.24.0"
   },
-  "files": [ "dist/**/*" ]
+  "files": [
+    "dist/**/*"
+  ]
 }

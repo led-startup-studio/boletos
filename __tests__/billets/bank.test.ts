@@ -3,10 +3,17 @@ import moment from "moment";
 import { BankBillet } from "../../src/billets/bank";
 
 describe("Testing bank due date factor", () => {
+
+    it("Bank due date converter must return errors for values bellow 1000", () => {
+      expect(() => BankBillet.bankDate(0)).toThrowError("Invalid bank due date"); // Invalid range
+      expect(() => BankBillet.bankDate(999)).toThrowError("Invalid bank due date"); // Invalid range
+      expect(() => BankBillet.bankDate(1000)).not.toThrowError("Invalid bank due date"); // Valid range
+    })
+
     it("[2020-01-01] Bank due date converter", () => {
       MockDate.set("2020-01-01T12:00:00-0300");
 
-      expect(BankBillet.bankDate(5120).format("DD-MM-YYYY")).toBe("07-10-1997"); // Invalid range
+      expect(() => BankBillet.bankDate(5120)).toThrowError("Invalid bank due date"); // Invalid range
 
       expect(BankBillet.bankDate(5121).format("DD-MM-YYYY")).toBe("15-10-2011"); // Minimum valid
       expect(BankBillet.bankDate(6000).format("DD-MM-YYYY")).toBe("12-03-2014");
@@ -19,19 +26,19 @@ describe("Testing bank due date factor", () => {
       expect(BankBillet.bankDate(4000).format("DD-MM-YYYY")).toBe("11-05-2033");
       expect(BankBillet.bankDate(4621).format("DD-MM-YYYY")).toBe("22-01-2035"); // Maximum valid
 
-      expect(BankBillet.bankDate(4622).format("DD-MM-YYYY")).toBe("07-10-1997"); // Invalid range
+      expect(() => BankBillet.bankDate(4622)).toThrowError("Invalid bank due date"); // Invalid range
     });
 
     it("[2050-01-01] Bank due date converter", () => {
       MockDate.set("2050-01-01T12:00:00-0300");
 
-      expect(BankBillet.bankDate(7078).format("DD-MM-YYYY")).toBe("07-10-1997"); // Invalid range
+      expect(() => BankBillet.bankDate(7078)).toThrowError("Invalid bank due date"); // Invalid range
 
       expect(BankBillet.bankDate(7079).format("DD-MM-YYYY")).toBe("15-10-2041"); // Minimum valid
       expect(BankBillet.bankDate(1079).format("DD-MM-YYYY")).toBe("01-01-2050"); // Today
       expect(BankBillet.bankDate(6579).format("DD-MM-YYYY")).toBe("22-01-2065"); // Maximum valid
 
-      expect(BankBillet.bankDate(6580).format("DD-MM-YYYY")).toBe("07-10-1997"); // Invalid range
+      expect(() => BankBillet.bankDate(6580)).toThrowError("Invalid bank due date"); // Invalid range
     });
 });
 

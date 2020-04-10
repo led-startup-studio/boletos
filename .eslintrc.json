@@ -1,0 +1,18 @@
+{
+    "env": {
+        "node": true,
+        "jest": true,
+        "es6": true
+    },
+    "parser": "@typescript-eslint/parser",
+    "extends": "eslint:recommended",
+    "parserOptions": {
+        "project": "./tsconfig.json",
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "ignorePatterns": ["node_modules/"]
+  }

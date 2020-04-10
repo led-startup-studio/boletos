@@ -5,7 +5,6 @@ import Billets from "../src/index";
 describe("Test index", () => {
     it("Bank barcode", () => {
         const billet = Billets.parse("23792813100000123000000000000000000000000000");
-        console.log(billet)
         expect(billet instanceof BankBillet).toBe(true);
     });
     it("Bank line", () => {
@@ -23,8 +22,6 @@ describe("Test index", () => {
     });
     it("Invalid input", () => {
         // let billet;
-        const r = () => (Billets.parse("xxx"));
-        expect(r()).toThrow("Billet format error");
-        // expect(billet).toBe(undefined);
+        expect(() => Billets.parse("xxx")).toThrowError("Billet format error");
     });
 });
