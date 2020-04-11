@@ -1,4 +1,7 @@
 {
+  "name": "@ledstartup/boleto",
+  "version": "0.1.0",
+  "main": "index.ts",
   "scripts": {
     "test": "jest --coverage",
     "lint": "npx eslint --ext .ts src",
