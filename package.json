@@ -8,9 +8,9 @@
     "repositoryUrl": "https://github.com/led-startup-studio/boletos",
     "branch": "master"
   },
-  "main": "./disk/index.js",
-  "typings": "dist/index.d.ts",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "typings": "src/index.ts",
+  "types": "src/index.ts",
   "directories": {
     "src": "src",
     "test": "__test__"
