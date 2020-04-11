@@ -1,11 +1,28 @@
 {
   "name": "@ledstartup/boleto",
   "version": "0.1.0",
-  "main": "./src/index.ts",
+  "author": "fabricio@ledstartup.studio",
+  "license": "MIT",
+  "dscription": "A library to parse Brazilian billets (known as 'boletos')",
+  "release": {
+    "repositoryUrl": "https://github.com/led-startup-studio/boletos",
+    "branch": "master"
+  },
+  "main": "./disk/index.js",
+  "typings": "dist/index.d.ts",
+  "types": "dist/index.d.ts",
+  "directories": {
+    "src": "src",
+    "test": "__test__"
+  },
   "scripts": {
     "test": "jest --coverage",
     "lint": "npx eslint --ext .ts src",
     "build": "./node_modules/.bin/tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/led-startup-studio/boletos.git"
   },
   "devDependencies": {
     "@types/jest": "^24.0.23",
