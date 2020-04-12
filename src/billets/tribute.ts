@@ -101,7 +101,7 @@ export class TributeBillet {
       value: String(value * 100).padStart(11, "0"),
       business: "0".repeat(4),
       open_field: "0".repeat(25),
-      field_dvs: ["0", "0", "0", "0"],
+      field_dvs: ["0", "0", "0", "0"]
     } as ITribute;
 
     let barcode = tributeBillet.toBarcode();
@@ -111,7 +111,7 @@ export class TributeBillet {
       mod10(barcode.slice(0, 11)),
       mod10(barcode.slice(11, 22)),
       mod10(barcode.slice(22, 33)),
-      mod10(barcode.slice(33, 44)),
+      mod10(barcode.slice(33, 44))
     ];
     return tributeBillet;
   }
@@ -136,8 +136,8 @@ export class TributeBillet {
         mod10(barcode.slice(0, 11)),
         mod10(barcode.slice(11, 22)),
         mod10(barcode.slice(22, 33)),
-        mod10(barcode.slice(33, 44)),
-      ],
+        mod10(barcode.slice(33, 44))
+      ]
     };
   }
 
@@ -154,8 +154,8 @@ export class TributeBillet {
         line.slice(11, 12),
         line.slice(23, 24),
         line.slice(35, 36),
-        line.slice(47, 48),
-      ],
+        line.slice(47, 48)
+      ]
     };
   }
 

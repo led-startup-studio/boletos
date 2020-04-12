@@ -29,8 +29,6 @@ import moment, { Moment } from "moment";
 import { list as banks } from "../utils/banks";
 import { mod10, mod11 } from "../utils/dv";
 
-import { TributeBillet } from "../index"
-
 export interface IBank {
   bank: string;
   currency: string;
@@ -112,13 +110,13 @@ export class BankBillet {
       open_fields: [
         "0".repeat(5),
         "0".repeat(10),
-        "0".repeat(10),
+        "0".repeat(10)
       ] ,
       field_dvs: [
         "0",
         "0",
-        "0",
-      ],
+        "0"
+      ]
     } as IBank;
 
     const barcode = bankBillet.toBarcode();
@@ -126,7 +124,7 @@ export class BankBillet {
     bankBillet.billet.field_dvs = [
       mod10(bankBillet.billet.bank + bankBillet.billet.currency + bankBillet.billet.open_fields[0]), // X
       mod10(bankBillet.billet.open_fields[1]), // Y
-      mod10(bankBillet.billet.open_fields[2]), // Z
+      mod10(bankBillet.billet.open_fields[2])  // Z
     ];
     return bankBillet;
   }
@@ -153,14 +151,14 @@ export class BankBillet {
       open_fields: [
         barcode.slice(19, 24), // C
         barcode.slice(24, 34), // D
-        barcode.slice(34, 44), // E
+        barcode.slice(34, 44)  // E
       ],
-      field_dvs: [],
+      field_dvs: []
     };
     bank.field_dvs = [
       mod10(bank.bank + bank.currency + bank.open_fields[0]), // X
       mod10(bank.open_fields[1]), // Y
-      mod10(bank.open_fields[2]), // Z
+      mod10(bank.open_fields[2])  // Z
     ];
     return bank;
   }
@@ -180,13 +178,13 @@ export class BankBillet {
       open_fields: [
         line.slice(4, 9), // C
         line.slice(10, 20), // D
-        line.slice(21, 31), // E
+        line.slice(21, 31)  // E
       ],
       field_dvs: [
         line.slice(9, 10), // X
         line.slice(20, 21), // Y
-        line.slice(31, 32), // Z
-      ],
+        line.slice(31, 32)  // Z
+      ]
     };
   }
 

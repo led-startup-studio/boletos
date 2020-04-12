@@ -79,7 +79,7 @@ var TributeBillet = /** @class */ (function () {
             value: String(value * 100).padStart(11, "0"),
             business: "0".repeat(4),
             open_field: "0".repeat(25),
-            field_dvs: ["0", "0", "0", "0"],
+            field_dvs: ["0", "0", "0", "0"]
         };
         var barcode = tributeBillet.toBarcode();
         tributeBillet.billet.dv = dv_1.mod11(barcode.slice(0, 3) + barcode.slice(4, 44));
@@ -88,7 +88,7 @@ var TributeBillet = /** @class */ (function () {
             dv_1.mod10(barcode.slice(0, 11)),
             dv_1.mod10(barcode.slice(11, 22)),
             dv_1.mod10(barcode.slice(22, 33)),
-            dv_1.mod10(barcode.slice(33, 44)),
+            dv_1.mod10(barcode.slice(33, 44))
         ];
         return tributeBillet;
     };
@@ -111,8 +111,8 @@ var TributeBillet = /** @class */ (function () {
                 dv_1.mod10(barcode.slice(0, 11)),
                 dv_1.mod10(barcode.slice(11, 22)),
                 dv_1.mod10(barcode.slice(22, 33)),
-                dv_1.mod10(barcode.slice(33, 44)),
-            ],
+                dv_1.mod10(barcode.slice(33, 44))
+            ]
         };
     };
     TributeBillet.parseLine = function (line) {
@@ -128,8 +128,8 @@ var TributeBillet = /** @class */ (function () {
                 line.slice(11, 12),
                 line.slice(23, 24),
                 line.slice(35, 36),
-                line.slice(47, 48),
-            ],
+                line.slice(47, 48)
+            ]
         };
     };
     TributeBillet.prototype.toBarcode = function () {

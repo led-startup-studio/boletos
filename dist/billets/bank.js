@@ -90,20 +90,20 @@ var BankBillet = /** @class */ (function () {
             open_fields: [
                 "0".repeat(5),
                 "0".repeat(10),
-                "0".repeat(10),
+                "0".repeat(10)
             ],
             field_dvs: [
                 "0",
                 "0",
-                "0",
-            ],
+                "0"
+            ]
         };
         var barcode = bankBillet.toBarcode();
         bankBillet.billet.dv = dv_1.mod11(barcode.slice(0, 4) + barcode.slice(5, 44));
         bankBillet.billet.field_dvs = [
             dv_1.mod10(bankBillet.billet.bank + bankBillet.billet.currency + bankBillet.billet.open_fields[0]),
             dv_1.mod10(bankBillet.billet.open_fields[1]),
-            dv_1.mod10(bankBillet.billet.open_fields[2]),
+            dv_1.mod10(bankBillet.billet.open_fields[2]) // Z
         ];
         return bankBillet;
     };
@@ -128,14 +128,14 @@ var BankBillet = /** @class */ (function () {
             open_fields: [
                 barcode.slice(19, 24),
                 barcode.slice(24, 34),
-                barcode.slice(34, 44),
+                barcode.slice(34, 44) // E
             ],
-            field_dvs: [],
+            field_dvs: []
         };
         bank.field_dvs = [
             dv_1.mod10(bank.bank + bank.currency + bank.open_fields[0]),
             dv_1.mod10(bank.open_fields[1]),
-            dv_1.mod10(bank.open_fields[2]),
+            dv_1.mod10(bank.open_fields[2]) // Z
         ];
         return bank;
     };
@@ -154,13 +154,13 @@ var BankBillet = /** @class */ (function () {
             open_fields: [
                 line.slice(4, 9),
                 line.slice(10, 20),
-                line.slice(21, 31),
+                line.slice(21, 31) // E
             ],
             field_dvs: [
                 line.slice(9, 10),
                 line.slice(20, 21),
-                line.slice(31, 32),
-            ],
+                line.slice(31, 32) // Z
+            ]
         };
     };
     BankBillet.prototype.toBarcode = function () {
