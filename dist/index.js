@@ -13,9 +13,16 @@
  *  http://www.meusutilitarios.com.br/2015/05/boleto-bancario-validacao-do-codigo-de.html
  *
  */
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
 Object.defineProperty(exports, "__esModule", { value: true });
 var bank_1 = require("./billets/bank");
 var tribute_1 = require("./billets/tribute");
+__export(require("./utils/banks"));
+__export(require("./utils/dv"));
+__export(require("./billets/bank"));
+__export(require("./billets/tribute"));
 var Billets = /** @class */ (function () {
     function Billets() {
     }

@@ -14,6 +14,10 @@
  */
 import { BankBillet } from "./billets/bank";
 import { TributeBillet } from "./billets/tribute";
+export * from "./utils/banks";
+export * from "./utils/dv";
+export * from "./billets/bank";
+export * from "./billets/tribute";
 export default class Billets {
     static parse(billet: string): TributeBillet | BankBillet | undefined;
 }

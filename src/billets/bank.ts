@@ -29,6 +29,8 @@ import moment, { Moment } from "moment";
 import { list as banks } from "../utils/banks";
 import { mod10, mod11 } from "../utils/dv";
 
+import { TributeBillet } from "../index"
+
 export interface IBank {
   bank: string;
   currency: string;
