@@ -15,6 +15,8 @@
 
 import { BankBillet } from "./billets/bank";
 import { TributeBillet } from "./billets/tribute";
+export * from "./utils/banks";
+export * from "./utils/dv";
 
 export default class Billets {
 
