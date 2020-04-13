@@ -1,8 +1,9 @@
 {
-  "name": "@ledstartup/boleto",
+  "name": "@ledstartupstudio/boleto",
   "version": "0.1.0",
   "author": "fabricio@ledstartup.studio",
   "license": "MIT",
+  "private": false,
   "dscription": "A library to parse Brazilian billets (known as 'boletos')",
   "release": {
     "repositoryUrl": "https://github.com/led-startup-studio/boletos",
@@ -18,7 +19,8 @@
   "scripts": {
     "test": "jest --coverage",
     "lint": "npx eslint --ext .ts src",
-    "build": "./node_modules/.bin/tsc"
+    "build": "./node_modules/.bin/tsc",
+    "deploy": "yarn publish --access public"
   },
   "repository": {
     "type": "git",
