@@ -27,17 +27,33 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      # Check if the package version has been changed
+      - uses: MontyD/package-json-updated-action
+        id: version-updated
+        with:
+          path: package.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # If the version has changed, build and release
+      - uses: actions/checkout@v1=
+        if: steps.version-updated.outputs.has-updated
       - uses: actions/setup-node@v1
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org/
-      - run: yarn
-      - run: yarn build
-      - run: yarn publish --access public
+      - run: |
+          yarn
+          yarn build
+          yarn publish --access public
+        if: steps.version-updated.outputs.has-updated
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+          
+      # Create new GitHub tag for the new version
       - uses: actions/checkout@v2
+        if: steps.version-updated.outputs.has-updated
       - uses: Klemensas/action-autotag@stable
+        if: steps.version-updated.outputs.has-updated
         with:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
