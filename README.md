@@ -1,4 +1,4 @@
-# API de Boletos
+# API de Boletos [![NPM](https://img.shields.io/npm/v/@ledstartupstudio/boleto.svg)](https://www.npmjs.com/package/@ledstartupstudio/boleto)
 
 API para analizar código de barras e linha digitáveis de boletos bancários e de tributação.
 
