@@ -4,7 +4,7 @@
 
 # GitHub Actions
 
-## Versionamentoe Subimissão
+## Versionamento e Submissão
 
 O script em Action realiza o versionamento do projeto baseado na versão descrita no arquivo package.json.
 
