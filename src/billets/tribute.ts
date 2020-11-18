@@ -89,7 +89,7 @@ export class TributeBillet {
    */
   public static createBillet(value: number): TributeBillet {
     if (String(value * 100).length > 11) {
-      throw new Error("Invalid parameters");
+      throw new Error("Value must be bellow 999999999.99")
     }
 
     const tributeBillet = new TributeBillet();

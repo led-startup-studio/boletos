@@ -88,10 +88,16 @@ export class BankBillet {
    */
   public static createBillet(value: number, expiry: number, bank?: string): BankBillet {
     const isBellowMaximumValue = String(value * 100).length <= 10
+    if (!isBellowMaximumValue) {
+      throw new Error("Value must be bellow 99999999.99")
+    }
     const hasValidExpireDate = expiry <= 5500
+    if (!hasValidExpireDate) {
+      throw new Error("Expiry must be bellow or equal 5500")
+    }
     const bankIsValid = !bank || banks.has(bank)
-    if (!isBellowMaximumValue || !hasValidExpireDate || !bankIsValid) {
-      throw new Error("Invalid parameters");
+    if (!bankIsValid) {
+      throw new Error("Bank unknown")
     }
 
     const today = moment().utcOffset("America/Sao_Paulo");
