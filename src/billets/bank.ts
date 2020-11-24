@@ -25,31 +25,30 @@
  */
 
 // eslint-disable-next-line
-import moment, { Moment } from "moment";
-import { list as banks } from "../utils/banks";
-import { mod10, mod11 } from "../utils/dv";
+import moment, { Moment } from "moment"
+import { banks } from "../utils/banks"
+import { mod10, mod11 } from "../utils/dv"
 
 export interface IBank {
-  bank: string;
-  currency: string;
-  dv: string;
-  due: string;
-  date: Moment;
-  value: string;
-  open_fields: string[];
-  field_dvs: string[];
+  bank: string
+  currency: string
+  dv: string
+  due: string
+  date: Moment
+  value: string
+  open_fields: string[]
+  field_dvs: string[]
 }
 
 // This is the factor used by the banks to start the due date counter
-export const rootFactorDate = moment("07-10-1997", "DD-MM-YYYY").utcOffset("America/Sao_Paulo");
-export const firstFactorDate = moment("03-07-2000", "DD-MM-YYYY").utcOffset("America/Sao_Paulo");
+export const rootFactorDate = moment("07-10-1997", "DD-MM-YYYY").utcOffset("America/Sao_Paulo")
+export const firstFactorDate = moment("03-07-2000", "DD-MM-YYYY").utcOffset("America/Sao_Paulo")
 
 export class BankBillet {
-
-  private billet: IBank;
+  private billet: IBank
 
   constructor() {
-    this.billet = {} as IBank;
+    this.billet = {} as IBank
   }
 
   /**
@@ -57,27 +56,27 @@ export class BankBillet {
    * @param billet Barcode (44 digits) or digitable line (47 digits)
    */
   public static parseBillet(billet: string): BankBillet {
-    const bank = new BankBillet();
+    const bank = new BankBillet()
 
     if ((billet.length !== 44 && billet.length !== 47) || !billet.match(/^[0-9]+$/)) {
-      throw new Error("Billet format error");
+      throw new Error("Billet format error")
     }
 
     if (billet.length === 44) {
       if (!BankBillet.isBarcodeValid(billet)) {
-        throw new Error("Invalid barcode");
+        throw new Error("Invalid barcode")
       }
-      bank.billet = BankBillet.parseBarcode(billet);
+      bank.billet = BankBillet.parseBarcode(billet)
     }
 
     if (billet.length === 47) {
       if (!BankBillet.isLineValid(billet)) {
-        throw new Error("Invalid line");
+        throw new Error("Invalid line")
       }
-      bank.billet = BankBillet.parseLine(billet);
+      bank.billet = BankBillet.parseLine(billet)
     }
 
-    return bank;
+    return bank
   }
 
   /**
@@ -100,12 +99,12 @@ export class BankBillet {
       throw new Error("Bank unknown")
     }
 
-    const today = moment().utcOffset("America/Sao_Paulo");
+    const today = moment().utcOffset("America/Sao_Paulo")
     // Calculates the current, previous and next factor dates based on the current date
-    const passedDaysFromFactor = today.diff(firstFactorDate, "days") + Number(expiry);
-    const dueDays = (passedDaysFromFactor % 9000) + 1000;
+    const passedDaysFromFactor = today.diff(firstFactorDate, "days") + Number(expiry)
+    const dueDays = (passedDaysFromFactor % 9000) + 1000
 
-    const bankBillet = new BankBillet();
+    const bankBillet = new BankBillet()
     bankBillet.billet = {
       value: String(value * 100).padStart(10, "0"),
       currency: "9",
@@ -113,33 +112,25 @@ export class BankBillet {
       date: today.clone().add(Number(expiry), "days"),
       bank: bank ? bank : "237",
       dv: "0",
-      open_fields: [
-        "0".repeat(5),
-        "0".repeat(10),
-        "0".repeat(10)
-      ] ,
-      field_dvs: [
-        "0",
-        "0",
-        "0"
-      ]
-    } as IBank;
+      open_fields: ["0".repeat(5), "0".repeat(10), "0".repeat(10)],
+      field_dvs: ["0", "0", "0"],
+    } as IBank
 
-    const barcode = bankBillet.toBarcode();
-    bankBillet.billet.dv = mod11(barcode.slice(0, 4) + barcode.slice(5, 44));
+    const barcode = bankBillet.toBarcode()
+    bankBillet.billet.dv = mod11(barcode.slice(0, 4) + barcode.slice(5, 44))
     bankBillet.billet.field_dvs = [
       mod10(bankBillet.billet.bank + bankBillet.billet.currency + bankBillet.billet.open_fields[0]), // X
       mod10(bankBillet.billet.open_fields[1]), // Y
-      mod10(bankBillet.billet.open_fields[2])  // Z
-    ];
-    return bankBillet;
+      mod10(bankBillet.billet.open_fields[2]), // Z
+    ]
+    return bankBillet
   }
 
   /**
    * Get billet information
    */
   public getBillet(): IBank {
-    return this.billet;
+    return this.billet
   }
 
   /**
@@ -157,16 +148,16 @@ export class BankBillet {
       open_fields: [
         barcode.slice(19, 24), // C
         barcode.slice(24, 34), // D
-        barcode.slice(34, 44)  // E
+        barcode.slice(34, 44), // E
       ],
-      field_dvs: []
-    };
+      field_dvs: [],
+    }
     bank.field_dvs = [
       mod10(bank.bank + bank.currency + bank.open_fields[0]), // X
       mod10(bank.open_fields[1]), // Y
-      mod10(bank.open_fields[2])  // Z
-    ];
-    return bank;
+      mod10(bank.open_fields[2]), // Z
+    ]
+    return bank
   }
 
   /**
@@ -184,39 +175,43 @@ export class BankBillet {
       open_fields: [
         line.slice(4, 9), // C
         line.slice(10, 20), // D
-        line.slice(21, 31)  // E
+        line.slice(21, 31), // E
       ],
       field_dvs: [
         line.slice(9, 10), // X
         line.slice(20, 21), // Y
-        line.slice(31, 32)  // Z
-      ]
-    };
+        line.slice(31, 32), // Z
+      ],
+    }
   }
 
   public toBarcode(): string {
-    return this.billet.bank
-      + this.billet.currency
-      + this.billet.dv
-      + this.billet.due
-      + this.billet.value
-      + this.billet.open_fields[0]
-      + this.billet.open_fields[1]
-      + this.billet.open_fields[2];
+    return (
+      this.billet.bank +
+      this.billet.currency +
+      this.billet.dv +
+      this.billet.due +
+      this.billet.value +
+      this.billet.open_fields[0] +
+      this.billet.open_fields[1] +
+      this.billet.open_fields[2]
+    )
   }
 
   public toLine(): string {
-    return this.billet.bank
-      + this.billet.currency
-      + this.billet.open_fields[0]
-      + this.billet.field_dvs[0]
-      + this.billet.open_fields[1]
-      + this.billet.field_dvs[1]
-      + this.billet.open_fields[2]
-      + this.billet.field_dvs[2]
-      + this.billet.dv
-      + this.billet.due
-      + this.billet.value;
+    return (
+      this.billet.bank +
+      this.billet.currency +
+      this.billet.open_fields[0] +
+      this.billet.field_dvs[0] +
+      this.billet.open_fields[1] +
+      this.billet.field_dvs[1] +
+      this.billet.open_fields[2] +
+      this.billet.field_dvs[2] +
+      this.billet.dv +
+      this.billet.due +
+      this.billet.value
+    )
   }
 
   /**
@@ -225,12 +220,12 @@ export class BankBillet {
    */
   // tslint:disable-next-line: member-ordering
   private static isBarcodeValid(barcode: string): boolean {
-    const givenDV =  barcode[4];
-    const sliced = barcode.slice(0, 4) + barcode.slice(5, 44);
+    const givenDV = barcode[4]
+    const sliced = barcode.slice(0, 4) + barcode.slice(5, 44)
     if (givenDV === mod11(sliced)) {
-      return true;
+      return true
     }
-    return false;
+    return false
   }
 
   /**
@@ -238,15 +233,17 @@ export class BankBillet {
    * @param line 47 digits code
    */
   private static isLineValid(line: string): boolean {
-    const entries = [line.slice(0, 4), line.slice(33, 47), line.slice(4, 9), line.slice(10, 20), line.slice(21, 31)];
-    const dvs = [line[9], line[20], line[31], line[32]]; // X Y Z K
-    if (dvs[0] === mod10(entries[0] + entries[2]) &&
-        dvs[1] === mod10(entries[3]) &&
-        dvs[2] === mod10(entries[4]) &&
-        dvs[3] === mod11(entries.join(""))) {
-      return true;
+    const entries = [line.slice(0, 4), line.slice(33, 47), line.slice(4, 9), line.slice(10, 20), line.slice(21, 31)]
+    const dvs = [line[9], line[20], line[31], line[32]] // X Y Z K
+    if (
+      dvs[0] === mod10(entries[0] + entries[2]) &&
+      dvs[1] === mod10(entries[3]) &&
+      dvs[2] === mod10(entries[4]) &&
+      dvs[3] === mod11(entries.join(""))
+    ) {
+      return true
     }
-    return false;
+    return false
   }
 
   /**
@@ -263,37 +260,45 @@ export class BankBillet {
   /// todo change to protected
   public static bankDate(due: number): Moment {
     if (due >= 1000) {
-      const today = moment().utcOffset("America/Sao_Paulo");
+      const today = moment().utcOffset("America/Sao_Paulo")
       // Calculates the current, previous and next factor dates based on the current date
-      const passedDaysFromFactor = today.diff(firstFactorDate, "days");
-      const todaysFactorDays = (passedDaysFromFactor % 9000) + 1000;
-      const todaysFactorDate = today.clone().subtract(todaysFactorDays - 1000, "days");
-      const previousFactorDate = todaysFactorDate.clone().subtract(9000, "days");
-      const nextFactorDate = todaysFactorDate.clone().add(9000, "days");
+      const passedDaysFromFactor = today.diff(firstFactorDate, "days")
+      const todaysFactorDays = (passedDaysFromFactor % 9000) + 1000
+      const todaysFactorDate = today.clone().subtract(todaysFactorDays - 1000, "days")
+      const previousFactorDate = todaysFactorDate.clone().subtract(9000, "days")
+      const nextFactorDate = todaysFactorDate.clone().add(9000, "days")
 
       // Number of days passed of the factor date
-      const daysFromFactor = due - 1000;
+      const daysFromFactor = due - 1000
 
       // Check if the due days is in the same factor of current date
-      let diff = todaysFactorDate.clone().add(daysFromFactor, "days").diff(today, "days");
+      let diff = todaysFactorDate.clone().add(daysFromFactor, "days").diff(today, "days")
       if (diff >= -3000 && diff <= 5500) {
-        return todaysFactorDate.clone().add(daysFromFactor, "days");
+        return todaysFactorDate.clone().add(daysFromFactor, "days")
       }
 
       // Check if the due days is in the preivous factor of current date
-      diff = previousFactorDate.clone().add(daysFromFactor, "days").diff(today, "days");
+      diff = previousFactorDate.clone().add(daysFromFactor, "days").diff(today, "days")
       if (diff >= -3000 && diff <= 5500) {
-        return previousFactorDate.clone().add(daysFromFactor, "days");
+        return previousFactorDate.clone().add(daysFromFactor, "days")
       }
 
       // Check if the due days is in the next factor of current date
-      diff = nextFactorDate.clone().add(daysFromFactor, "days").diff(today, "days");
+      diff = nextFactorDate.clone().add(daysFromFactor, "days").diff(today, "days")
       if (diff >= -3000 && diff <= 5500) {
-        return nextFactorDate.clone().add(daysFromFactor, "days");
+        return nextFactorDate.clone().add(daysFromFactor, "days")
       }
     }
 
     // If none of the conditions above is met, then it is returned a "invalid" date
-    throw new Error("Invalid bank due date");
+    throw new Error("Invalid bank due date")
+  }
+
+  /**
+   * Check if the entry is a valid
+   * @param entry Digitable line or barcode
+   */
+  public static isValid(entry: string): boolean {
+    return this.isLineValid(entry) || this.isBarcodeValid(entry)
   }
 }
