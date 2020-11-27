@@ -125,4 +125,9 @@ describe("Test bank billet parser", () => {
     expect(bank.toLine()).toBe("23790000090000000000000000000000281310000012300")
     expect(BankBillet.parseBillet(bank.toLine())).not.toBe(undefined)
   })
+
+  it("Validate", () => {
+    expect(BankBillet.isValid("23790000090000000000000000000000281310000012300")).toBe(true)
+    expect(BankBillet.isValid("23790000090000000000000000000000281310000012302")).toBe(false)
+  })
 })

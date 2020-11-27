@@ -75,4 +75,9 @@ describe("Test tribute billet parser", () => {
     expect(tribute.toLine()).toBe("808600000018230000000003000000000000000000000000")
     expect(TributeBillet.parseBillet(tribute.toLine())).not.toBe(undefined)
   })
+
+  it("Validate", () => {
+    expect(TributeBillet.isValid("808600000018230000000003000000000000000000000000")).toBe(true)
+    expect(TributeBillet.isValid("808600000018230000000003000000000000000000000002")).toBe(false)
+  })
 })
